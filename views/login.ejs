@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>signup page</title>
+    <title>login page</title>
     <style>
       * {
         margin: 0;
@@ -56,36 +56,15 @@
         font-size: 16px;
         transition: 0.2s;
       }
-      pre {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-      pre li {
-        list-style: none;
-        font-size: 19px;
-        margin-top: 1rem;
-      }
-      /* pre li a {
-        background-color: rgb(35, 3, 90);
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-        padding: 3px 3px 3px 3px;
-        border-radius: 10px;
-      } */
     </style>
   </head>
   <body>
     <header><h1>File Management System</h1></header>
     <div class="form_parent">
-      <form action="/user/signup" method="post">
-        <input type="text" name="name" placeholder="Enter Your Username" />
+      <form action="/user/login" method="post">
         <input type="text" name="email" placeholder="Enter Your email" />
         <input type="text" name="password" placeholder="Type your Password" />
-        <button type="submit" class="btn">Sign Up</button>
-        <pre>already registered? <li><a href="/user/login">login</a></li></pre>
+        <button class="btn">login</button>
       </form>
     </div>
   </body>
