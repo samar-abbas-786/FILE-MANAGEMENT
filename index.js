@@ -5,6 +5,7 @@ const multer = require("multer");
 const app = express();
 const User = require("./models/userSchema");
 const PORT = process.env.PORT || 3000;
+const fs = require("fs");
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/File-Management")
@@ -42,7 +43,6 @@ app.post("/user/signup", async (req, res) => {
   });
   console.log(user);
   return res.render("multer");
-  // return res.status(200).json("Successfully Signup");
 });
 
 app.post("/user/login", async (req, res) => {
@@ -54,6 +54,17 @@ app.post("/user/login", async (req, res) => {
     return res.render("multer");
   }
 });
+
+//File System
+
+const fullPath = path.join(__dirname, "uploads");
+const files = fs.readdirSync(fullPath);
+
+try {
+  files.forEach((file) => console.log(file));
+} catch (error) {
+  console.log(error);
+}
 
 /*MULTER PORTION*/
 const storage = multer.diskStorage({
