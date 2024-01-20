@@ -6,6 +6,7 @@ const app = express();
 const User = require("./models/userSchema");
 const PORT = process.env.PORT || 3000;
 const fs = require("fs");
+const bcrypt = require("bcrypt");
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/File-Management")
@@ -30,9 +31,6 @@ app.get("/", async (req, res) => {
 app.get("/login", async (req, res) => {
   return await res.render("login");
 });
-// app.get("/multer", async (req, res) => {
-//   return await res.render("multer");
-// });
 
 app.post("/user/signup", async (req, res) => {
   const { name, email, password } = req.body;
@@ -45,15 +43,67 @@ app.post("/user/signup", async (req, res) => {
   return res.render("multer");
 });
 
+// app.post("/user/login", async (req, res) => {
+//   const { email, password } = req.body;
+//   try {
+//     // Assuming you have a User model
+//     const user = await User.findOne({ email: email, password: password });
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User Not Found" });
+//     }
+
+//     // Check if the provided password matches the stored password
+//     if (user.password !== password) {
+//       return res.status(401).json({ message: "Incorrect Password" });
+//     }
+
+//     // Password is correct, you can redirect/render the desired page
+//     return res.render("multer");
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// });
+
 app.post("/user/login", async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.find({ email: email, password: password });
+  const user = await User.findOne({ email: email, password: password });
   if (!user) {
     return res.status(404).json({ message: " User Not Found" });
-  } else {
-    return res.render("multer");
   }
+
+  return res.render("multer");
 });
+
+// app.post("/user/login", async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     // Find a user with the provided email
+//     const users = await User.find({ email: email });
+
+//     // Check if a user with the given email exists
+//     if (users.length === 0) {
+//       return res.status(404).json({ message: "User Not Found" });
+//     }
+
+//     const user = users[0]; // Assuming you want the first user in the array
+
+//     // Compare the provided password with the hashed password in the database
+//     const passwordMatch = await bcrypt.compare(password, user.password);
+
+//     if (!passwordMatch) {
+//       return res.status(401).json({ message: "Incorrect Password" });
+//     }
+
+//     // Password is correct, you can redirect/render the desired page
+//     return res.render("multer");
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// });
 
 //File System
 
@@ -67,6 +117,7 @@ try {
 }
 
 /*MULTER PORTION*/
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     return cb(null, "./uploads");
@@ -88,3 +139,5 @@ app.post("/upload", upload.single("ProfileImage"), (req, res) => {
 app.listen(PORT, () => {
   console.log(`App is running on: localhost:${PORT}`);
 });
+
+module.exports;
